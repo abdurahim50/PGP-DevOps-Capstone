@@ -1,0 +1,17 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-ingress-to-database
+  namespace: database
+spec:
+  podSelector:
+    matchLabels:
+      app: database
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: frontend # this label is added automatically that we can use here
+        podSelector:
+          matchLabels:
+            app: frontend
